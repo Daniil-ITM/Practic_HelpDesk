@@ -2,7 +2,7 @@ import tkinter as tk
 from tkinter import ttk, messagebox
 from Controllers.KnowledgeController import KnowledgeController
 from Controllers.CategoryController import CategoryController
-
+from Models.Categories import Category
 
 class CreateArticleView(tk.Toplevel):
     '''Окно создания статьи'''

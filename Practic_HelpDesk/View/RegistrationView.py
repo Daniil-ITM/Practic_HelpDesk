@@ -11,7 +11,7 @@ class regView(tk.Tk):
 
         # Атрибуты окна
         self.title("Регистрация")
-        self.geometry("500x700")
+        self.geometry("400x700")
         self.resizable(False, False)
 
         # Центрирование окна
@@ -39,22 +39,22 @@ class regView(tk.Tk):
 
         # Фрейм для ввода данных
         self.input_get_user = ttk.Frame(self.reg_user)
-        self.input_get_user.pack(fill=tk.X, pady=20)
+        self.input_get_user.pack(fill=tk.X, pady=10)
 
         # Поля ввода
-        ttk.Label(self.input_get_user, text="Логин", font=("Arial", 10)).pack(pady=(10, 5))
+        ttk.Label(self.input_get_user, text="Логин *", font=("Arial", 10)).pack(pady=(10, 5))
         self.login = ttk.Entry(self.input_get_user, width=30, font=("Arial", 10))
         self.login.pack(pady=(0, 10))
 
-        ttk.Label(self.input_get_user, text="Пароль", font=("Arial", 10)).pack(pady=(10, 5))
+        ttk.Label(self.input_get_user, text="Пароль *", font=("Arial", 10)).pack(pady=(10, 5))
         self.password = ttk.Entry(self.input_get_user, show='*', width=30, font=("Arial", 10))
         self.password.pack(pady=(0, 10))
 
-        ttk.Label(self.input_get_user, text="Подтверждение пароля", font=("Arial", 10)).pack(pady=(10, 5))
+        ttk.Label(self.input_get_user, text="Подтверждение пароля *", font=("Arial", 10)).pack(pady=(10, 5))
         self.password_confirm = ttk.Entry(self.input_get_user, show='*', width=30, font=("Arial", 10))
         self.password_confirm.pack(pady=(0, 10))
 
-        ttk.Label(self.input_get_user, text="ФИО", font=("Arial", 10)).pack(pady=(10, 5))
+        ttk.Label(self.input_get_user, text="ФИО *", font=("Arial", 10)).pack(pady=(10, 5))
         self.full_name = ttk.Entry(self.input_get_user, width=30, font=("Arial", 10))
         self.full_name.pack(pady=(0, 10))
 
@@ -62,10 +62,9 @@ class regView(tk.Tk):
         self.email = ttk.Entry(self.input_get_user, width=30, font=("Arial", 10))
         self.email.pack(pady=(0, 10))
 
-        ttk.Label(self.input_get_user, text="Выберите свою роль", font=("Arial", 10)).pack(pady=(10, 5))
-        roles = ['user', 'tech', 'admin']
-        role_names = ['Пользователь', 'Специалист', 'Администратор']
-        self.role = ttk.Combobox(self.input_get_user, values=role_names, state="readonly", width=27)
+        ttk.Label(self.input_get_user, text="Роль", font=("Arial", 10)).pack(pady=(10, 5))
+        roles = ['Пользователь', 'Специалист', 'Администратор']
+        self.role = ttk.Combobox(self.input_get_user, values=roles, state="readonly", width=27)
         self.role.set('Пользователь')
         self.role.pack(pady=(0, 10))
 
@@ -108,20 +107,24 @@ class regView(tk.Tk):
 
     def add_reg(self):
         '''Регистрация нового пользователя'''
-        login = self.login.get()
+        login = self.login.get().strip()
         password = self.password.get()
         password_confirm = self.password_confirm.get()
-        full_name = self.full_name.get()
-        email = self.email.get()
+        full_name = self.full_name.get().strip()
+        email = self.email.get().strip()
         role_name = self.role.get()
 
         # Валидация
         if not login or not password or not full_name:
-            messagebox.showerror("Ошибка", "Заполните все обязательные поля")
+            messagebox.showerror("Ошибка", "Заполните все обязательные поля (отмечены *)")
             return
 
         if password != password_confirm:
             messagebox.showerror("Ошибка", "Пароли не совпадают")
+            return
+
+        if len(password) < 4:
+            messagebox.showerror("Ошибка", "Пароль должен быть не менее 4 символов")
             return
 
         # Преобразование роли
@@ -136,3 +139,8 @@ class regView(tk.Tk):
             self.move()
         else:
             messagebox.showerror("Ошибка", result['message'])
+
+
+if __name__ == "__main__":
+    window = regView()
+    window.mainloop()

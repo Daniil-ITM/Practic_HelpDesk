@@ -11,7 +11,7 @@ class authView(tk.Tk):
 
         # Атрибуты окна
         self.title("Авторизация")
-        self.geometry("400x450")
+        self.geometry("400x600")
         self.resizable(False, False)
 
         # Центрирование окна
@@ -93,8 +93,8 @@ class authView(tk.Tk):
 
     def auth(self):
         '''Аутентификация пользователя'''
-        login = self.login.get()
-        password = self.password.get()
+        login = self.login.get().strip()
+        password = self.password.get().strip()
 
         if not login or not password:
             messagebox.showerror("Ошибка", "Введите логин и пароль")
@@ -116,12 +116,8 @@ class authView(tk.Tk):
 
     def move(self):
         '''Переход к окну регистрации'''
-        from RegistrationView import regView
+        from View.RegistrationView  import regView
         self.destroy()
         reg = regView()
         reg.mainloop()
 
-
-if __name__ == "__main__":
-    window = authView()
-    window.mainloop()
